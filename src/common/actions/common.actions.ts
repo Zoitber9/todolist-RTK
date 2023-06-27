@@ -1,3 +1,3 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction } from '@reduxjs/toolkit';
 
-const increment = createAction<number | undefined>("common/increment");
+export const clearTasksAndTodolists = createAction('common/clear-tasks-todolists')
