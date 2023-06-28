@@ -120,5 +120,3 @@ export const Todolist = React.memo(function ({ demo = false, ...props }: PropsTy
     </div>
   );
 });
-
-
