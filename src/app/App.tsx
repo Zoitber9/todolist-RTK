@@ -1,12 +1,6 @@
-import React, { useCallback, useEffect } from "react";
-import "./App.css";
-import { TodolistsList } from "features/TodolistsList/TodolistsList";
-import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { initializeAppTC } from "app/app.reducer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "features/auth/Login";
-import { logoutTC } from "features/auth/auth.reducer";
 import {
   AppBar,
   Button,
@@ -18,28 +12,27 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { useAppDispatch } from "hooks/useAppDispatch";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
+import { Login } from "features/auth/ui/login/login";
+import "./App.css";
+import { TodolistsList } from "features/TodolistsList/TodolistsList";
+import { ErrorSnackbar } from "common/components";
+import { useActions } from "common/hooks";
+import { selectIsLoggedIn } from "features/auth/model/auth.selectors";
 import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
+import { authThunks } from "features/auth/model/auth.slice";
 
-type PropsType = {
-  demo?: boolean;
-};
-
-function App({ demo = false }: PropsType) {
+function App() {
   const status = useSelector(selectAppStatus);
   const isInitialized = useSelector(selectIsInitialized);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const dispatch = useAppDispatch();
+  const { initializeApp, logout } = useActions(authThunks);
 
   useEffect(() => {
-    dispatch(initializeAppTC());
+    initializeApp();
   }, []);
 
-  const logoutHandler = useCallback(() => {
-    dispatch(logoutTC());
-  }, []);
+  const logoutHandler = () => logout();
 
   if (!isInitialized) {
     return (
@@ -69,7 +62,7 @@ function App({ demo = false }: PropsType) {
         </AppBar>
         <Container fixed>
           <Routes>
-            <Route path={"/"} element={<TodolistsList demo={demo} />} />
+            <Route path={"/"} element={<TodolistsList />} />
             <Route path={"/login"} element={<Login />} />
           </Routes>
         </Container>
