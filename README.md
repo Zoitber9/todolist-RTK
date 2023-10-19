@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ### TODOLIST
 
 Todolist позволяет пользователям создавать, просматривать, редактировать и удалять задачи. Основные функциональные возможности включают:
